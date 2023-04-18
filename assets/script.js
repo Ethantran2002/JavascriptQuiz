@@ -4,7 +4,7 @@ var interval
 var currentQuestion
 
 
-var homePage = document.getElementById("main-menu")
+var homeMenu = document.getElementById("main-menu")
 var btnHighScore = document.getElementById("view-high-scores")
 var resultsMenu = document.getElementById("results-menu")
 //var msgSection = document.getElementById("msg-section")
@@ -12,10 +12,15 @@ var highScoresMenu = document.getElementById("high-scores-menu")
 var intervalTimer = document.getElementById("timer")
 var questionsCard = document.getElementById("questions-card")
 var navBar = document.getElementById("nav-bar")
+var lstHighScores = document.getElementById("high-scores-list")
+var btnInit = document.getElementById("initialize")
+var btnClearLocal = document.getElementById("clear-local")
+
+//Array of Questions
 
 var jsQuestions = [
     {
-        question: "How many equal signs des a strict equal operator have?",
+        question: "How many equal signs does a strict equal operator have?",
         choices: [
             "1",
             "2",
@@ -104,10 +109,9 @@ var jsQuestions = [
 
 ]
 
-btnHighScore.addEventListener("click", function() {
-    setPageVisibility("high-scores");
-    loadHS();
-})
+
+
+//Loads Scoreboard Function
 
 function loadHS() {
     removeAllChildren(lstHighScores);
@@ -117,11 +121,112 @@ function loadHS() {
     // Create li elements for each entry in array - assumes array is presorted
     if (highScores !== null) {
         for (var i = 0; i < highScores.length; i++) {
-            var playerScores = document.createElement("li");
+            var playerScores = document.createElement("li")
 
-            playerScores.textContent = highScores[i].username + " - " + highScores[i].score;
+            playerScores.textContent = highScores[i].username + " - " + highScores[i].score
             
-            lstHighScores.appendChild(liEl);
+            lstHighScores.appendChild(liEl)
         }
     }
+}
+
+function populateQuestion() {
+
+    if (currentQuestion === 0) {
+        message.textContent = ""
+    } else if (currentQuestion >= questions.length) {
+        clearInterval(interval)
+            
+        setPageVisibility("results")
+
+        intervalTimer.textContent = timer
+        finalScore.textContent = timer
+
+        return;
+    }
+
+    questionHeader.innerHTML = questions[currentQuestion].question
+
+    removeAllChildren(lstChoices);
+    
+    questions[currentQuestion].choices.forEach(function(choice, index) {
+        var tmpChoice = document.createElement("li")
+
+        tmpChoice.innerHTML = choice
+        tmpChoice.setAttribute("data-choice-idx", index)
+
+        lstChoices.appendChild(tmpChoice)
+    })
+}
+
+btnHighScore.addEventListener("click", function() {
+    setPageVisibility("high-scores");
+    loadHS();
+})
+
+//Clears Local Storage 
+
+btnClearLocal.addEventListener("click", function() {
+    localStorage.clear()
+    removeAllChildren(lstHighScores)
+})
+
+btnInit.addEventListener("click", function() {
+    initialize()
+})
+
+function initialize() {
+    setPageVisibility("home")
+
+    timer = 0
+    intervalTimer.textContent = timer
+    clearInterval(interval)
+}
+
+
+
+initialize()
+
+function setPageVisibility(pageToShow) {
+    if (pageToShow === "home") {
+        navBar.style.display = "";
+        homePage.style.display = "";
+
+        questionsCard.style.display = "none";
+        resultsMenu.style.display = "none";
+        highScoresMenu.style.display = "none";
+
+    } else if (pageToShow === "questions") {
+        navBar.style.display = "";
+        questionsCard.style.display = "";
+        msgSection.style.display = ""
+
+        homeMenu.style.display = "none";
+        resultsMenu.style.display = "none";
+        highScoresMenu.style.display = "none";
+
+    } else if (pageToShow === "results") {
+        navBar.style.display = "";
+        resultsMenu.style.display = "";
+      
+
+        homeMenu.style.display = "none";
+        questionsCard.style.display = "none";
+        highScoresMenu.style.display = "none";
+
+    } else if (pageToShow === "high-scores") {
+        highScoresPage.style.display = "";
+        
+        navBar.style.display = "none";
+        homeMenu.style.display = "none";
+        questionsCard.style.display = "none";
+        resultsMenu.style.display = "none";
+        
+    }
+}
+
+function removeAllChildren(element) {
+    while (element.firstChild) {
+        element.removeChild(element.lastChild);
+    };
 }

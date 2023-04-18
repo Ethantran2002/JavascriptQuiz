@@ -5,24 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javascript Quiz</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body>
+
+<nav id="nav-bar">
+    <button id="view-high-scores">View High Scores</button>
+    <p>Time: <sec id="timer">60</sec></p>
+</nav>
+
+    <section id="high-scores-menu">
+        <h2>High Scores</h2>
+        <ol id="high-scores-list">
+        </ol>
+        <div id="hs-buttons">
+            <button id="initialize">Main Menu</button>
+            <button id="clear-local">Reset Scores</button>
+        </div>
+    </section>
     
+    <nav id="nav-bar">
+        <button id="scoreBoard">View High Scores</button>
+        <p>Time: <sec id="timer">0</sec></p>
+    </nav>
+    
+    <section id="main-menu">
+        <h1>Javascript Quiz</h1>
+        <p>
+            Test your knowledge of Javascript with this quiz! You have 60 seconds to answer all the questions to get the highest score possible.
+            Wrong answers will deduct your time by 5 seconds.
+        </p>
+        <button id="start-quiz">Start Quiz</button>
+    </section>
+    
+    <section id="questions-card">
+        <h2 id="question"></h2>
+        <ol id="choices"></ol>
+    </section>
 
+    <section id="results-menu">
+        <p>Your final score is <sec id="final-score"></sec></p>
+        <form id="username">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" maxlength="16">
+            <button type="submit" form="username-form" id="username-submit">Submit</button>
+        </form>
+    </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <script src="./assets/js/script.js"></script>
+    <script src="./assets/script.js"></script>
 </body>
